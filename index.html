@@ -1,0 +1,2936 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>DreamHomes | Luxury Real Estate</title>
+    <style>
+        /* DreamHomes design system */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --navy: #14264B;
+            --blue: #465CF5;
+            --purple: #7777FF;
+            --bg: #F5F7FB;
+            --gray: #E9EDF5;
+            --text: #182747;
+            --muted: #71809B;
+            --green: #269B65;
+            --shadow: 0 10px 30px rgba(20, 38, 75, .10);
+            --r: 18px
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+            line-height: 1.6
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.2
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .container {
+            width: min(1200px, 92%);
+            margin: auto
+        }
+
+        .section {
+            padding: 80px 0
+        }
+
+        .center {
+            text-align: center
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .grad {
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 26px;
+            border-radius: 50px;
+            border: 0;
+            cursor: pointer;
+            font: 600 15px 'Plus Jakarta Sans';
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            color: #fff;
+            transition: .3s
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(70, 92, 245, .4)
+        }
+
+        .btn.ghost {
+            background: transparent;
+            border: 2px solid #fff
+        }
+
+        .btn.sm {
+            padding: 8px 18px;
+            font-size: 14px
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--navy);
+            display: grid;
+            place-items: center;
+            z-index: 999;
+            transition: .6s
+        }
+
+        #loader.hide {
+            opacity: 0;
+            visibility: hidden
+        }
+
+        #loader i {
+            width: 46px;
+            height: 46px;
+            border: 4px solid var(--purple);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            width: 0;
+            z-index: 1001
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 2px 20px rgba(20, 38, 75, .08)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px
+        }
+
+        .logo {
+            font: 700 26px 'Plus Jakarta Sans';
+            color: var(--navy)
+        }
+
+        .logo b {
+            color: var(--blue)
+        }
+
+        .links {
+            display: flex;
+            gap: 26px;
+            align-items: center;
+            font-weight: 500
+        }
+
+        .links a:hover,
+        .links a.active {
+            color: var(--blue)
+        }
+
+        .burger {
+            display: none;
+            background: none;
+            border: 0;
+            font-size: 28px;
+            cursor: pointer
+        }
+
+        .badge-count {
+            background: var(--blue);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            padding: 1px 6px;
+            margin-left: 2px
+        }
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            background: linear-gradient(rgba(20, 38, 75, .75), rgba(20, 38, 75, .7)), url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1800&q=70') center/cover fixed;
+            position: relative
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 72px);
+            animation: up 1s both
+        }
+
+        .hero p {
+            max-width: 620px;
+            margin: 18px 0 28px;
+            animation: up 1s .2s both;
+            color: #dbe3f5
+        }
+
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+        }
+
+        .page-hero {
+            padding: 90px 0 60px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--navy), #2b3f8f)
+        }
+
+        .page-hero h1 {
+            font-size: clamp(32px, 5vw, 52px)
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(119, 119, 255, .5), transparent 70%);
+            animation: float 7s ease-in-out infinite;
+            pointer-events: none
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-30px)
+            }
+        }
+
+        .searchbox {
+            background: #fff;
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr) auto;
+            gap: 14px;
+            margin: -50px auto 0;
+            position: relative;
+            z-index: 5;
+            width: min(1100px, 92%)
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--gray);
+            border-radius: 12px;
+            font: 15px 'Plus Jakarta Sans';
+            background: #fff;
+            color: var(--text)
+        }
+
+        textarea {
+            min-height: 110px
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 4px
+        }
+
+        .err {
+            color: #d33;
+            font-size: 13px;
+            min-height: 18px
+        }
+
+        .ok {
+            color: var(--green);
+            font-weight: 600
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 26px
+        }
+
+        .list .card {
+            display: grid;
+            grid-template-columns: 300px 1fr
+        }
+
+        .list {
+            grid-template-columns: 1fr
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform .2s, box-shadow .3s;
+            transform-style: preserve-3d
+        }
+
+        .card:hover {
+            box-shadow: 0 20px 45px rgba(70, 92, 245, .22)
+        }
+
+        .card .img {
+            position: relative;
+            overflow: hidden;
+            height: 210px;
+            background: linear-gradient(135deg, var(--navy), var(--blue))
+        }
+
+        .card .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .6s
+        }
+
+        .card:hover .img img {
+            transform: scale(1.1)
+        }
+
+        .tag {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: var(--green);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600
+        }
+
+        .tag.rent {
+            background: var(--blue)
+        }
+
+        .heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(255, 255, 255, .92);
+            cursor: pointer;
+            font-size: 18px;
+            color: #999
+        }
+
+        .heart.on {
+            color: #e23a5b
+        }
+
+        .card .body {
+            padding: 18px
+        }
+
+        .price {
+            font: 700 21px 'Plus Jakarta Sans';
+            color: var(--blue)
+        }
+
+        .meta {
+            display: flex;
+            gap: 14px;
+            font-size: 14px;
+            color: var(--muted);
+            margin: 10px 0 14px;
+            flex-wrap: wrap
+        }
+
+        .cat {
+            height: 200px;
+            border-radius: var(--r);
+            color: #fff;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            font: 600 22px 'Plus Jakarta Sans';
+            background-size: cover;
+            background-position: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .cat::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 30%, rgba(20, 38, 75, .88))
+        }
+
+        .cat span {
+            position: relative
+        }
+
+        .feat {
+            background: #fff;
+            padding: 30px;
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .feat .ic {
+            font-size: 38px
+        }
+
+        .showcase {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            border-radius: 26px;
+            overflow: hidden;
+            background: var(--navy);
+            color: #fff
+        }
+
+        .showcase img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 340px
+        }
+
+        .showcase div {
+            padding: 40px
+        }
+
+        .stats {
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: #fff
+        }
+
+        .stats .grid {
+            text-align: center
+        }
+
+        .stats strong {
+            font: 700 46px 'Plus Jakarta Sans';
+            display: block
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: grid;
+            place-items: center;
+            font: 700 28px Inter;
+            color: #fff;
+            background: linear-gradient(135deg, var(--blue), var(--purple))
+        }
+
+        .agent {
+            text-align: center;
+            padding: 26px
+        }
+
+        .slider {
+            position: relative;
+            max-width: 720px;
+            margin: auto;
+            text-align: center
+        }
+
+        .slide {
+            display: none;
+            background: #fff;
+            padding: 34px;
+            border-radius: var(--r);
+            box-shadow: var(--shadow)
+        }
+
+        .slide.on {
+            display: block;
+            animation: up .6s
+        }
+
+        .stars {
+            color: #f5a623;
+            font-size: 20px
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--navy), var(--purple));
+            color: #fff;
+            text-align: center;
+            border-radius: 28px;
+            padding: 64px 20px
+        }
+
+        .cta .btn {
+            margin: 6px
+        }
+
+        footer {
+            background: var(--navy);
+            color: #c3cce0;
+            padding: 60px 0 20px;
+            margin-top: 80px
+        }
+
+        footer .cols {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.4fr;
+            gap: 30px
+        }
+
+        footer h4 {
+            color: #fff;
+            margin-bottom: 12px
+        }
+
+        footer a {
+            display: block;
+            padding: 3px 0
+        }
+
+        footer a:hover {
+            color: #fff
+        }
+
+        footer .copy {
+            border-top: 1px solid #2c3f6e;
+            margin-top: 30px;
+            padding-top: 16px;
+            font-size: 14px;
+            text-align: center
+        }
+
+        .nl {
+            display: flex;
+            gap: 8px
+        }
+
+        .nl input {
+            border-radius: 50px
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 290px 1fr;
+            gap: 28px;
+            padding-top: 36px
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: var(--r);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            align-self: start;
+            display: grid;
+            gap: 12px
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap
+        }
+
+        .toolbar select {
+            width: auto
+        }
+
+        .pager {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 30px
+        }
+
+        .pager button {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--gray);
+            background: #fff;
+            cursor: pointer
+        }
+
+        .pager .on {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .detail {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 30px;
+            padding-top: 30px
+        }
+
+        .gallery .main {
+            position: relative;
+            border-radius: var(--r);
+            overflow: hidden;
+            height: 440px;
+            background: var(--navy)
+        }
+
+        .gallery .main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .gallery .nb {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(255, 255, 255, .9);
+            cursor: pointer;
+            font-size: 20px
+        }
+
+        .thumbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px
+        }
+
+        .thumbs img {
+            width: 90px;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            opacity: .6
+        }
+
+        .thumbs img.on {
+            opacity: 1;
+            outline: 3px solid var(--blue)
+        }
+
+        .box {
+            background: #fff;
+            border-radius: var(--r);
+            padding: 26px;
+            box-shadow: var(--shadow);
+            margin-bottom: 22px
+        }
+
+        .box.stick {
+            position: sticky;
+            top: 92px;
+            display: grid;
+            gap: 10px
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .chips span {
+            background: var(--gray);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 14px
+        }
+
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 34px;
+            align-items: start
+        }
+
+        .authbox {
+            max-width: 440px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 34px;
+            border-radius: var(--r);
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 12px
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--gray);
+            border-radius: 50px;
+            padding: 4px
+        }
+
+        .tabs button {
+            flex: 1;
+            border: 0;
+            padding: 10px;
+            border-radius: 50px;
+            background: none;
+            font: 600 15px 'Plus Jakarta Sans';
+            cursor: pointer
+        }
+
+        .tabs .on {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .pw {
+            position: relative
+        }
+
+        .pw button {
+            position: absolute;
+            right: 10px;
+            top: 9px;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            font-size: 16px
+        }
+
+        .rv {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: .8s
+        }
+
+        .rv.in {
+            opacity: 1;
+            transform: none
+        }
+
+        #top {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 0;
+            background: var(--blue);
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+            z-index: 90
+        }
+
+        #top.show {
+            opacity: 1;
+            visibility: visible
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--purple);
+            outline-offset: 2px
+        }
+
+        @media(max-width:1024px) {
+
+            .layout,
+            .detail {
+                grid-template-columns: 1fr
+            }
+
+            .searchbox {
+                grid-template-columns: 1fr 1fr
+            }
+
+            footer .cols {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .showcase,
+            .two {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:768px) {
+            .burger {
+                display: block
+            }
+
+            .links {
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                max-height: 0;
+                overflow: hidden;
+                padding-block: 0;
+                transition: .4s
+            }
+
+            .links.open {
+                max-height: 480px;
+                padding-block: 20px
+            }
+
+            .list .card {
+                grid-template-columns: 1fr
+            }
+
+            .hero {
+                background-attachment: scroll
+            }
+        }
+
+        @media(max-width:480px) {
+            .searchbox {
+                grid-template-columns: 1fr
+            }
+
+            footer .cols {
+                grid-template-columns: 1fr
+            }
+
+            .section {
+                padding: 56px 0
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important
+            }
+
+            .rv {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+
+        /* ===== v2: reference-matched design + animations ===== */
+        body {
+            background: #fff
+        }
+
+        .i {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex: none;
+            vertical-align: -3px
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font: 700 22px 'Plus Jakarta Sans';
+            color: inherit;
+            line-height: 1.1
+        }
+
+        .logo small {
+            display: block;
+            font: 500 11px 'Plus Jakarta Sans';
+            opacity: .8;
+            margin-top: 2px
+        }
+
+        .lg {
+            width: 34px;
+            height: 34px
+        }
+
+        header {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            color: #fff;
+            transition: background .4s, box-shadow .4s, color .4s
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 24px rgba(20, 38, 75, .10);
+            color: var(--text)
+        }
+
+        .links {
+            flex: 1;
+            margin-left: 70px;
+            font-size: 14px
+        }
+
+        .links .grow {
+            flex: 1
+        }
+
+        .links a {
+            position: relative
+        }
+
+        .links a:not(.btn):not(.ico)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            height: 2px;
+            width: 0;
+            background: var(--purple);
+            transition: .3s
+        }
+
+        .links a:not(.btn):not(.ico):hover::after,
+        .links a.active::after {
+            width: 100%
+        }
+
+        .links a:hover,
+        .links a.active {
+            color: inherit
+        }
+
+        .ico {
+            position: relative;
+            display: grid;
+            place-items: center
+        }
+
+        .ico .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -10px
+        }
+
+        .btn.out {
+            background: transparent;
+            border: 1px solid currentColor;
+            color: inherit;
+            box-shadow: none
+        }
+
+        .btn.out:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff
+        }
+
+        .btn {
+            position: relative;
+            overflow: hidden
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+            transform: skewX(-20deg);
+            transition: .7s
+        }
+
+        .btn:hover::after {
+            left: 140%
+        }
+
+        #loader {
+            background: linear-gradient(135deg, #0f1d40, var(--navy))
+        }
+
+        .ld {
+            display: grid;
+            justify-items: center;
+            gap: 14px;
+            color: #fff;
+            font: 700 26px 'Plus Jakarta Sans';
+            animation: pulse 1.4s ease-in-out infinite
+        }
+
+        .ld .lg {
+            width: 64px;
+            height: 64px
+        }
+
+        .ld .bar {
+            width: 160px;
+            height: 3px;
+            background: rgba(255, 255, 255, .2);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative
+        }
+
+        .ld .bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            width: 40%;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            animation: slide 1s infinite
+        }
+
+        @keyframes slide {
+            to {
+                left: 100%
+            }
+        }
+
+        @keyframes pulse {
+            50% {
+                transform: scale(1.05)
+            }
+        }
+
+        .hero2 {
+            position: relative;
+            min-height: 640px;
+            height: 100vh;
+            max-height: 760px;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            background: var(--navy)
+        }
+
+        .hs {
+            position: absolute;
+            inset: -4%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.6s;
+            margin-top: calc(var(--sy, 0)*.15px)
+        }
+
+        .hs.on {
+            opacity: 1;
+            animation: kb 14s ease-out forwards
+        }
+
+        @keyframes kb {
+            from {
+                transform: scale(1.02)
+            }
+
+            to {
+                transform: scale(1.14) translateX(-1.5%)
+            }
+        }
+
+        .hshade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(14, 26, 60, .88), rgba(14, 26, 60, .45) 52%, rgba(14, 26, 60, .05)), linear-gradient(0deg, rgba(14, 26, 60, .45), transparent 40%)
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(119, 119, 255, .45), transparent 70%);
+            filter: blur(8px);
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
+            transition: transform .4s
+        }
+
+        .orb.o2 {
+            background: radial-gradient(circle, rgba(70, 92, 245, .4), transparent 70%);
+            animation-delay: -3s
+        }
+
+        .hc {
+            position: relative;
+            padding-top: 60px;
+            transform: translateY(calc(var(--sy, 0)*.22px));
+            opacity: calc(1 - var(--sy, 0)/650)
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: .18em;
+            font-weight: 500;
+            opacity: 0;
+            animation: up .9s .2s forwards
+        }
+
+        .hc h1 {
+            font-size: clamp(40px, 5.6vw, 68px);
+            font-weight: 800;
+            margin: 14px 0 18px;
+            line-height: 1.08
+        }
+
+        .w {
+            display: inline-block;
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(34px) rotateX(-40deg);
+            animation: wordin .95s cubic-bezier(.2, .8, .2, 1) calc(var(--i)*.13s + .45s) forwards
+        }
+
+        @keyframes wordin {
+            to {
+                opacity: 1;
+                filter: none;
+                transform: none
+            }
+        }
+
+        .grad2 {
+            background: linear-gradient(90deg, #5d6cff, #a3a0ff, #5d6cff);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: wordin .95s cubic-bezier(.2, .8, .2, 1) 1s forwards, shine 4s linear 2s infinite
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% 0
+            }
+        }
+
+        .sub {
+            max-width: 470px;
+            font-size: 15px;
+            color: #dfe5f6;
+            opacity: 0;
+            animation: up .9s 1.1s forwards
+        }
+
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(28px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        .hsearch {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            color: var(--text);
+            border-radius: 12px;
+            padding: 12px 12px 12px 6px;
+            margin-top: 34px;
+            max-width: 720px;
+            box-shadow: 0 24px 60px rgba(8, 16, 40, .4);
+            opacity: 0;
+            animation: up .9s 1.4s forwards
+        }
+
+        .sf {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 2px 14px;
+            border-right: 1px solid var(--gray);
+            position: relative;
+            min-width: 0
+        }
+
+        .sf>.i:first-child {
+            width: 20px;
+            height: 20px;
+            color: #4b5b7a
+        }
+
+        .sf>.i:last-child {
+            width: 12px;
+            color: var(--muted)
+        }
+
+        .sf div {
+            flex: 1;
+            min-width: 0
+        }
+
+        .sf small {
+            display: block;
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .sf select {
+            border: 0;
+            padding: 0;
+            font-size: 11px;
+            color: var(--muted);
+            background: transparent;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            border-radius: 0;
+            margin-top: 3px
+        }
+
+        .sf select:focus {
+            outline: 0
+        }
+
+        .sf:focus-within {
+            background: var(--bg);
+            border-radius: 8px
+        }
+
+        .hsearch .go {
+            margin-left: 12px;
+            border-radius: 8px;
+            background: #4f5fe8;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 13px 28px
+        }
+
+        .wave {
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 80px
+        }
+
+        .harrows {
+            position: absolute;
+            right: 5%;
+            bottom: 120px;
+            display: flex;
+            gap: 10px
+        }
+
+        .harrows button {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, .4);
+            background: rgba(255, 255, 255, .12);
+            backdrop-filter: blur(6px);
+            color: #fff;
+            cursor: pointer;
+            transition: .3s
+        }
+
+        .harrows button:hover {
+            background: var(--blue)
+        }
+
+        .dots {
+            position: absolute;
+            left: 50%;
+            bottom: 108px;
+            display: flex;
+            gap: 6px;
+            transform: translateX(-50%)
+        }
+
+        .dots i {
+            width: 8px;
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, .5);
+            cursor: pointer;
+            transition: .4s
+        }
+
+        .dots i.on {
+            width: 26px;
+            background: #fff
+        }
+
+        .fsec {
+            padding: 40px 0 60px
+        }
+
+        .sec-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 22px;
+            gap: 12px
+        }
+
+        .sec-head h2 {
+            font-size: 24px;
+            font-weight: 800
+        }
+
+        .sec-head p {
+            font-size: 13px
+        }
+
+        .vall {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .vall:hover .i {
+            transform: translateX(4px)
+        }
+
+        .vall .i {
+            transition: .3s;
+            width: 13px
+        }
+
+        .g4 {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px
+        }
+
+        .card {
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 4px 18px rgba(20, 38, 75, .10);
+            cursor: pointer
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: .3s;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .35), transparent 55%)
+        }
+
+        .card:hover::after {
+            opacity: 1
+        }
+
+        .card .img {
+            height: 140px
+        }
+
+        .card .body {
+            padding: 13px 15px 15px
+        }
+
+        .card .price {
+            font: 800 15px 'Plus Jakarta Sans';
+            color: var(--navy)
+        }
+
+        .card h3 {
+            font: 700 14px 'Plus Jakarta Sans';
+            margin: 4px 0 2px
+        }
+
+        .card h3 a:hover {
+            color: var(--blue)
+        }
+
+        .loc {
+            font-size: 11px;
+            color: var(--muted);
+            display: flex;
+            gap: 5px;
+            align-items: center
+        }
+
+        .loc .i {
+            width: 12px;
+            height: 12px
+        }
+
+        .card .meta {
+            font-size: 11px;
+            gap: 12px;
+            margin: 10px 0 0
+        }
+
+        .meta span {
+            display: inline-flex;
+            gap: 5px;
+            align-items: center
+        }
+
+        .meta .i {
+            width: 14px;
+            height: 14px
+        }
+
+        .tag {
+            border-radius: 5px;
+            padding: 3px 10px;
+            font-size: 11px;
+            top: 10px;
+            left: 10px
+        }
+
+        .heart {
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            background: transparent;
+            transition: .3s
+        }
+
+        .heart .i {
+            width: 22px;
+            height: 22px;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .5))
+        }
+
+        .heart.on .i {
+            fill: #ff4d6d;
+            stroke: #ff4d6d
+        }
+
+        .heart:hover {
+            transform: scale(1.2)
+        }
+
+        .heart.pop {
+            animation: pop .5s
+        }
+
+        @keyframes pop {
+            30% {
+                transform: scale(1.6) rotate(-10deg)
+            }
+
+            60% {
+                transform: scale(.9)
+            }
+        }
+
+        .spot {
+            display: grid;
+            grid-template-columns: 1fr 290px;
+            gap: 18px
+        }
+
+        .spot-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 22px rgba(20, 38, 75, .10);
+            overflow: hidden
+        }
+
+        .sg {
+            padding: 0
+        }
+
+        .sg-main {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            background: var(--navy)
+        }
+
+        .sg-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .fade {
+            animation: fadez .8s
+        }
+
+        @keyframes fadez {
+            from {
+                opacity: .2;
+                transform: scale(1.06)
+            }
+        }
+
+        .sgb {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            border: 0;
+            background: #fff;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: .3s;
+            color: var(--navy)
+        }
+
+        .sgb:hover {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .sgb.l {
+            left: 12px
+        }
+
+        .sgb.r {
+            right: 12px
+        }
+
+        .cnt {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            background: rgba(15, 25, 50, .7);
+            color: #fff;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 6px
+        }
+
+        .sg-th {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            padding: 6px
+        }
+
+        .sg-th img {
+            height: 66px;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: .65;
+            transition: .3s
+        }
+
+        .sg-th img:hover,
+        .sg-th img.on {
+            opacity: 1;
+            transform: translateY(-3px)
+        }
+
+        .sg-th img.on {
+            outline: 2px solid var(--blue)
+        }
+
+        .si {
+            padding: 20px 22px;
+            font-size: 13px
+        }
+
+        .si h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 8px 0 4px
+        }
+
+        .si h4 {
+            font-size: 13px;
+            margin: 14px 0 6px
+        }
+
+        .price.big {
+            font: 800 20px 'Plus Jakarta Sans';
+            color: var(--navy);
+            margin: 10px 0
+        }
+
+        .price.big small {
+            font: 500 11px 'Plus Jakarta Sans';
+            color: var(--muted)
+        }
+
+        .sm {
+            font-size: 12px
+        }
+
+        .facts {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray)
+        }
+
+        .facts span {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center
+        }
+
+        .checks {
+            list-style: none;
+            display: grid;
+            gap: 6px;
+            font-size: 12px;
+            margin-bottom: 12px
+        }
+
+        .checks .i {
+            color: var(--green);
+            width: 13px
+        }
+
+        .book {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 22px rgba(20, 38, 75, .12);
+            overflow: hidden;
+            align-self: start
+        }
+
+        .bh {
+            background: linear-gradient(120deg, #4558f0, #5e6cff);
+            color: #fff;
+            padding: 16px 18px
+        }
+
+        .bh b {
+            display: block;
+            font-size: 14px
+        }
+
+        .bh small {
+            font-size: 11px;
+            opacity: .9
+        }
+
+        .bb {
+            padding: 14px;
+            display: grid;
+            gap: 2px
+        }
+
+        .fi {
+            position: relative
+        }
+
+        .fi .i {
+            position: absolute;
+            left: 10px;
+            top: 11px;
+            width: 14px;
+            height: 14px;
+            color: var(--muted)
+        }
+
+        .fi input,
+        .fi textarea {
+            padding: 9px 10px 9px 32px;
+            font-size: 12px;
+            border-radius: 6px
+        }
+
+        .fi textarea {
+            min-height: 64px
+        }
+
+        .fi input:focus,
+        .fi textarea:focus {
+            outline: 0;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(70, 92, 245, .15)
+        }
+
+        .bb .err {
+            min-height: 14px;
+            font-size: 11px
+        }
+
+        .btn.navy {
+            background: var(--navy);
+            width: 100%;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 4px
+        }
+
+        .direct {
+            font-size: 11px;
+            margin-top: 8px
+        }
+
+        .direct p {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 6px;
+            font-weight: 600
+        }
+
+        .page-hero {
+            padding: 140px 0 70px
+        }
+
+        #v-details,
+        #v-login {
+            padding-top: 90px
+        }
+
+        .cta {
+            position: relative;
+            overflow: hidden
+        }
+
+        .cube {
+            position: absolute;
+            width: 56px;
+            height: 56px;
+            transform-style: preserve-3d;
+            animation: spin3d 14s linear infinite;
+            pointer-events: none
+        }
+
+        .cube.c2 {
+            width: 36px;
+            height: 36px;
+            animation-duration: 9s;
+            animation-direction: reverse
+        }
+
+        .cube b {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, .55);
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .cube b:nth-child(1) {
+            transform: translateZ(28px)
+        }
+
+        .cube b:nth-child(2) {
+            transform: rotateY(90deg) translateZ(28px)
+        }
+
+        .cube b:nth-child(3) {
+            transform: rotateY(180deg) translateZ(28px)
+        }
+
+        .cube b:nth-child(4) {
+            transform: rotateY(-90deg) translateZ(28px)
+        }
+
+        .cube b:nth-child(5) {
+            transform: rotateX(90deg) translateZ(28px)
+        }
+
+        .cube b:nth-child(6) {
+            transform: rotateX(-90deg) translateZ(28px)
+        }
+
+        @keyframes spin3d {
+            to {
+                transform: rotateX(360deg) rotateY(360deg)
+            }
+        }
+
+        .rv {
+            transform: translateY(40px) scale(.97);
+            transition: opacity .9s cubic-bezier(.2, .8, .2, 1), transform .9s cubic-bezier(.2, .8, .2, 1)
+        }
+
+        .rv.in {
+            transform: none
+        }
+
+        .cat {
+            transition: transform .2s
+        }
+
+        .cat::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .3), transparent 55%);
+            opacity: 0;
+            transition: .3s
+        }
+
+        .cat:hover::after {
+            opacity: 1
+        }
+
+        .cat {
+            background-size: cover;
+            transition: background-size .6s
+        }
+
+        .feat:hover .ic {
+            animation: pop .6s
+        }
+
+        .stats strong {
+            text-shadow: 0 0 30px rgba(255, 255, 255, .4)
+        }
+
+        @media(max-width:1100px) {
+            .g4 {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .spot {
+                grid-template-columns: 1fr
+            }
+
+            .hsearch {
+                flex-wrap: wrap;
+                gap: 10px
+            }
+
+            .sf {
+                flex: 1 1 40%;
+                border: 0
+            }
+
+            .hsearch .go {
+                flex: 1 1 100%;
+                justify-content: center;
+                margin: 0
+            }
+
+            .harrows {
+                display: none
+            }
+        }
+
+        @media(max-width:768px) {
+            .links {
+                margin-left: 0;
+                color: var(--text)
+            }
+
+            .links a {
+                color: var(--text)
+            }
+
+            .links .btn.out {
+                border-color: var(--blue)
+            }
+
+            .links .grow {
+                display: none
+            }
+
+            .hero2 {
+                height: auto;
+                max-height: none;
+                padding: 110px 0 120px
+            }
+
+            .spot-main {
+                grid-template-columns: 1fr
+            }
+
+            .dots {
+                bottom: 96px
+            }
+        }
+
+        @media(max-width:560px) {
+            .g4 {
+                grid-template-columns: 1fr
+            }
+
+            .sf {
+                flex: 1 1 100%
+            }
+
+            .sec-head {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+
+        [hidden] {
+            display: none !important
+        }
+
+        .otp {
+            text-align: center;
+            font: 700 28px 'Plus Jakarta Sans';
+            letter-spacing: .5em
+        }
+
+        .authbox .btn {
+            text-align: center
+        }
+
+        #authUser {
+            justify-items: center
+        }
+
+        .view[hidden] {
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+    <section class="view" id="v-home" hidden>
+        <section class="hero2">
+            <div class="hs"
+                style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=75')">
+            </div>
+            <div class="hs"
+                style="background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=75')">
+            </div>
+            <div class="hs"
+                style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=75')">
+            </div>
+            <div class="hshade"></div>
+            <i class="orb" data-d="50" style="width:360px;height:360px;right:12%;top:8%"></i><i class="orb o2"
+                data-d="-35" style="width:220px;height:220px;left:44%;bottom:22%"></i>
+            <div class="container hc">
+                <p class="eyebrow">MODERN LIVING, BETTER TOMORROW</p>
+                <h1><span class="w" style="--i:0">Find</span> <span class="w" style="--i:1">Your</span> <span
+                        class="w grad2" style="--i:2">Dream</span><br><span class="w" style="--i:3">Property</span></h1>
+                <p class="sub">Discover the perfect home, apartment or investment property with our easy-to-use search
+                    and advanced filters.</p>
+                <form class="hsearch" id="heroSearch">
+                    <div class="sf"><svg class="i" viewBox="0 0 24 24">
+                            <path d="M3 11l9-8 9 8v10H3zM9 21v-7h6v7" />
+                        </svg>
+                        <div><small>Property Type</small><select id="h_type">
+                                <option value="">Any Type</option>
+                                <option value="villa">Luxury Villa</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="house">Family House</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="penthouse">Penthouse</option>
+                                <option value="plot">Plot / Land</option>
+                            </select></div><svg class="i" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </div>
+                    <div class="sf"><svg class="i" viewBox="0 0 24 24">
+                            <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" />
+                            <circle cx="12" cy="10" r="2.5" />
+                        </svg>
+                        <div><small>Location</small><select id="h_city">
+                                <option value="">Select Location</option>
+                                <option>Lahore</option>
+                                <option>Karachi</option>
+                                <option>Islamabad</option>
+                                <option>Rawalpindi</option>
+                                <option>Faisalabad</option>
+                                <option>Multan</option>
+                            </select></div><svg class="i" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </div>
+                    <div class="sf"><svg class="i" viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="6" rx="8" ry="3" />
+                            <path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" />
+                        </svg>
+                        <div><small>Price Range</small><select id="h_price">
+                                <option value="">Any Price</option>
+                                <option value="0-20000000">Up to 2 Crore</option>
+                                <option value="20000000-60000000">2 – 6 Crore</option>
+                                <option value="60000000-150000000">6 – 15 Crore</option>
+                                <option value="150000000-">15 Crore+</option>
+                            </select></div><svg class="i" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </div>
+                    <div class="sf"><svg class="i" viewBox="0 0 24 24">
+                            <path d="M3 18V7M3 14h18v4M21 14v-3a3 3 0 0 0-3-3h-7v6" />
+                            <circle cx="7" cy="11" r="1.5" />
+                        </svg>
+                        <div><small>Bedrooms</small><select id="h_beds">
+                                <option value="">Any</option>
+                                <option value="1">1+</option>
+                                <option value="2">2+</option>
+                                <option value="3">3+</option>
+                                <option value="4">4+</option>
+                                <option value="5">5+</option>
+                            </select></div><svg class="i" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6" />
+                        </svg>
+                    </div><button class="btn go"><svg class="i" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M20 20l-4-4" />
+                        </svg> Search</button>
+                </form>
+            </div>
+            <div class="harrows"><button id="hPrev" aria-label="Previous"><svg class="i" viewBox="0 0 24 24">
+                        <path d="M15 5l-7 7 7 7" />
+                    </svg></button><button id="hNext" aria-label="Next"><svg class="i" viewBox="0 0 24 24">
+                        <path d="M9 5l7 7-7 7" />
+                    </svg></button></div>
+            <div class="dots"><i></i><i></i><i></i></div>
+            <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none">
+                <path d="M0,70 C240,10 520,100 820,48 C1080,5 1260,30 1440,58 L1440,90 L0,90Z" fill="#fff" />
+            </svg>
+        </section>
+        <section class="section fsec">
+            <div class="container">
+                <div class="sec-head rv">
+                    <div>
+                        <h2>Featured Properties</h2>
+                        <p class="muted">Handpicked properties for your next chapter</p>
+                    </div><a class="vall" href="#properties">View All Properties <svg class="i" viewBox="0 0 24 24">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg></a>
+                </div>
+                <div class="grid g4" id="featured"></div>
+            </div>
+        </section>
+        <section class="section" style="padding:0 0 70px">
+            <div class="container">
+                <div class="spot">
+                    <div class="spot-main rv">
+                        <div class="sg">
+                            <div class="sg-main"><img id="sgImg" alt="Modern Villa in DHA"><button class="sgb l"
+                                    id="sgPrev" aria-label="Previous photo"><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M15 5l-7 7 7 7" />
+                                    </svg></button><button class="sgb r" id="sgNext" aria-label="Next photo"><svg
+                                        class="i" viewBox="0 0 24 24">
+                                        <path d="M9 5l7 7-7 7" />
+                                    </svg></button><span class="cnt" id="sgCount"></span></div>
+                            <div class="sg-th" id="sgThumbs"></div>
+                        </div>
+                        <div class="si"><span class="tag" style="position:static;display:inline-block">For Sale</span>
+                            <h2>Modern Villa in DHA</h2>
+                            <p class="loc"><svg class="i" viewBox="0 0 24 24">
+                                    <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" />
+                                    <circle cx="12" cy="10" r="2.5" />
+                                </svg> DHA Phase 5, Lahore</p>
+                            <div class="price big">PKR 45,000,000 <small>(Negotiable)</small></div>
+                            <div class="facts"><span><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M3 18V7M3 14h18v4M21 14v-3a3 3 0 0 0-3-3h-7v6" />
+                                        <circle cx="7" cy="11" r="1.5" />
+                                    </svg> 5 Beds</span><span><svg class="i" viewBox="0 0 24 24">
+                                        <path
+                                            d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3zM6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2" />
+                                    </svg> 4 Baths</span><span><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M4 4h16v16H4zM4 12h8v8" />
+                                    </svg> 4,500 sqft</span><span><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5" />
+                                    </svg> 2 Floors</span></div>
+                            <h4>Description</h4>
+                            <p class="muted sm">This beautiful modern villa is located in the heart of DHA Phase 5. It
+                                offers spacious rooms, modern design, and all the amenities you need for a comfortable
+                                lifestyle. The property is perfect for families looking for a secure and peaceful
+                                environment.</p>
+                            <h4>Key Features</h4>
+                            <ul class="checks">
+                                <li><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5 9-10" />
+                                    </svg> Spacious Living Area</li>
+                                <li><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5 9-10" />
+                                    </svg> Modern Kitchen</li>
+                                <li><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5 9-10" />
+                                    </svg> Private Garden</li>
+                                <li><svg class="i" viewBox="0 0 24 24">
+                                        <path d="M5 12l5 5 9-10" />
+                                    </svg> Swimming Pool</li>
+                            </ul><a class="vall" href="#details?id=1">Full property details <svg class="i"
+                                    viewBox="0 0 24 24">
+                                    <path d="M9 5l7 7-7 7" />
+                                </svg></a>
+                        </div>
+                    </div>
+                    <aside class="book rv">
+                        <div class="bh"><b>Book a Viewing</b><small>Schedule a visit and see this property in
+                                person.</small></div>
+                        <form id="sbForm" novalidate class="bb">
+                            <div class="fi"><svg class="i" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="8" r="4" />
+                                    <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+                                </svg><input id="sbName" type="text" placeholder="Your Name" aria-label="Your Name">
+                            </div>
+                            <div class="err" id="sbNameErr"></div>
+                            <div class="fi"><svg class="i" viewBox="0 0 24 24">
+                                    <path
+                                        d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+                                </svg><input id="sbPhone" type="text" placeholder="Phone Number"
+                                    aria-label="Phone Number"></div>
+                            <div class="err" id="sbPhoneErr"></div>
+                            <div class="fi"><svg class="i" viewBox="0 0 24 24">
+                                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                                    <path d="M3 7l9 6 9-6" />
+                                </svg><input id="sbEmail" type="email" placeholder="Email Address"
+                                    aria-label="Email Address"></div>
+                            <div class="err" id="sbEmailErr"></div>
+                            <div class="fi"><svg class="i" viewBox="0 0 24 24">
+                                    <rect x="3" y="5" width="18" height="16" rx="2" />
+                                    <path d="M3 10h18M8 3v4M16 3v4" />
+                                </svg><input id="sbDate" type="date" placeholder="Preferred Date"
+                                    aria-label="Preferred Date"></div>
+                            <div class="err" id="sbDateErr"></div>
+                            <div class="fi ta"><svg class="i" viewBox="0 0 24 24">
+                                    <path d="M4 5h16v11H9l-5 4z" />
+                                </svg><textarea id="sbText" placeholder="Message (Optional)"></textarea></div>
+                            <button class="btn navy"><svg class="i" viewBox="0 0 24 24">
+                                    <path d="M21 3L3 11l7 3 3 7z" />
+                                </svg> Send Request</button>
+                            <div id="sbMsg" class="err"></div>
+                            <div class="direct"><b>Or Contact Us Directly</b>
+                                <p><svg class="i" viewBox="0 0 24 24">
+                                        <path
+                                            d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+                                    </svg> +92 300 1234567</p>
+                                <p><svg class="i" viewBox="0 0 24 24">
+                                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                                        <path d="M3 7l9 6 9-6" />
+                                    </svg> annasheral87@gmail.com</p>
+                            </div>
+                        </form>
+                    </aside>
+                </div>
+            </div>
+        </section>
+        <section class="section" style="background:#fff">
+            <div class="container">
+                <h2 class="center" style="margin-bottom:34px">Explore Categories</h2>
+                <div class="grid">
+                    <a class="cat tilt rv" data-type="villa" href="#properties?type=villa"><span>Luxury
+                            Villas</span></a><a class="cat tilt rv" data-type="apartment"
+                        href="#properties?type=apartment"><span>Apartments</span></a>
+                    <a class="cat tilt rv" data-type="house" href="#properties?type=house"><span>Family
+                            Houses</span></a><a class="cat tilt rv" data-type="commercial"
+                        href="#properties?type=commercial"><span>Commercial Properties</span></a>
+                    <a class="cat tilt rv" data-type="penthouse"
+                        href="#properties?type=penthouse"><span>Penthouses</span></a><a class="cat tilt rv"
+                        data-type="plot" href="#properties?type=plot"><span>Plots and Land</span></a>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <h2 class="center" style="margin-bottom:34px">Why Choose DreamHomes</h2>
+                <div class="grid">
+                    <div class="feat tilt rv">
+                        <div class="ic">✅</div>
+                        <h3>Verified Properties</h3>
+                        <p class="muted">Every listing is checked for ownership and documents.</p>
+                    </div>
+                    <div class="feat tilt rv">
+                        <div class="ic">🤝</div>
+                        <h3>Trusted Agents</h3>
+                        <p class="muted">Experienced agents who know each neighbourhood.</p>
+                    </div>
+                    <div class="feat tilt rv">
+                        <div class="ic">📅</div>
+                        <h3>Easy Booking</h3>
+                        <p class="muted">Request a viewing in under a minute.</p>
+                    </div>
+                    <div class="feat tilt rv">
+                        <div class="ic">📈</div>
+                        <h3>Best Investment Opportunities</h3>
+                        <p class="muted">Areas with strong rental and resale demand.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section" style="padding-top:0">
+            <div class="container">
+                <div class="showcase rv"><img loading="lazy"
+                        src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=70"
+                        alt="Modern villa with pool">
+                    <div>
+                        <h2>Modern Villa with Pool</h2>
+                        <p class="price" style="color:#aab4ff;margin:10px 0">PKR 21 Crore</p>
+                        <p>📍 E-11, Islamabad</p>
+                        <p style="margin:12px 0 20px">Swimming pool · Home theatre · Smart home system · Landscaped
+                            garden · 24/7 security</p><a class="btn" href="#details?id=7">Explore Property</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section stats">
+            <div class="container">
+                <div class="grid">
+                    <div><strong data-n="500">0</strong>Properties Sold</div>
+                    <div><strong data-n="1200">0</strong>Happy Clients</div>
+                    <div><strong data-n="350">0</strong>Available Properties</div>
+                    <div><strong data-n="50">0</strong>Professional Agents</div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <h2 class="center" style="margin-bottom:34px">Our Agents</h2>
+                <div class="grid">
+                    <div class="card agent tilt rv">
+                        <div class="avatar">AK</div>
+                        <h3>Ayesha Khan</h3>
+                        <p class="muted">Senior Property Consultant</p><br><a class="btn sm" href="#contact">Contact</a>
+                    </div>
+                    <div class="card agent tilt rv">
+                        <div class="avatar">HR</div>
+                        <h3>Hamza Raza</h3>
+                        <p class="muted">Luxury Homes Specialist</p><br><a class="btn sm" href="#contact">Contact</a>
+                    </div>
+                    <div class="card agent tilt rv">
+                        <div class="avatar">SM</div>
+                        <h3>Sara Malik</h3>
+                        <p class="muted">Investment Advisor</p><br><a class="btn sm" href="#contact">Contact</a>
+                    </div>
+                    <div class="card agent tilt rv">
+                        <div class="avatar">BA</div>
+                        <h3>Bilal Ahmed</h3>
+                        <p class="muted">Commercial Sales Manager</p><br><a class="btn sm" href="#contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section" style="background:#fff">
+            <div class="container">
+                <h2 class="center" style="margin-bottom:34px">What Clients Say</h2>
+                <div class="slider">
+                    <div class="slide">
+                        <div class="avatar">FN</div>
+                        <div class="stars">★★★★★</div>
+                        <p>“They found us a family home in DHA within two weeks and handled every document.”</p>
+                        <b>Fatima Noor, Lahore</b>
+                    </div>
+                    <div class="slide">
+                        <div class="avatar">UJ</div>
+                        <div class="stars">★★★★★</div>
+                        <p>“Clear pricing, honest advice and quick viewings. Highly recommended for investors.”</p>
+                        <b>Usman Jamil, Karachi</b>
+                    </div>
+                    <div class="slide">
+                        <div class="avatar">ZT</div>
+                        <div class="stars">★★★★☆</div>
+                        <p>“Renting our apartment was simple, and the tenants were verified.”</p><b>Zainab Tariq,
+                            Islamabad</b>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="cta rv">
+                    <div class="cube" style="right:8%;top:20%"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+                    <div class="cube c2" style="left:7%;bottom:18%"><b></b><b></b><b></b><b></b><b></b><b></b></div>
+                    <h2>Ready to Find Your Dream Home?</h2>
+                    <p style="margin:12px 0 22px">Browse listings or talk to an agent today.</p><a class="btn ghost"
+                        href="#properties">Explore Properties</a><a class="btn"
+                        style="background:#fff;color:var(--navy)" href="#contact">Contact Us</a>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="view" id="v-properties" hidden>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Properties</h1>
+                <p>Home / Properties</p>
+            </div>
+        </section>
+        <div class="container layout">
+            <aside class="panel">
+                <h3>Filters</h3>
+                <select id="f_mode">
+                    <option value="">Buy / Rent</option>
+                    <option value="sale">Buy</option>
+                    <option value="rent">Rent</option>
+                </select>
+                <select id="f_type">
+                    <option value="">Property Type</option>
+                    <option value="villa">Luxury Villa</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="house">Family House</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="penthouse">Penthouse</option>
+                    <option value="plot">Plot / Land</option>
+                </select><select id="f_city">
+                    <option value="">City</option>
+                    <option>Lahore</option>
+                    <option>Karachi</option>
+                    <option>Islamabad</option>
+                    <option>Rawalpindi</option>
+                    <option>Faisalabad</option>
+                    <option>Multan</option>
+                </select><input id="f_area" placeholder="Area (e.g. DHA)">
+                <input id="f_min" type="number" placeholder="Min price (PKR)"><input id="f_max" type="number"
+                    placeholder="Max price (PKR)">
+                <select id="f_beds">
+                    <option value="">Bedrooms</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+                <select id="f_baths">
+                    <option value="">Bathrooms</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                <select id="f_size">
+                    <option value="">Property size</option>
+                    <option value="1000">1,000+ sqft</option>
+                    <option value="3000">3,000+ sqft</option>
+                    <option value="5000">5,000+ sqft</option>
+                </select>
+                <select id="f_furn">
+                    <option value="">Furnished?</option>
+                    <option value="true">Furnished</option>
+                    <option value="false">Unfurnished</option>
+                </select><button class="btn" id="reset" type="button">Reset filters</button>
+            </aside>
+            <main>
+                <div class="toolbar"><input id="f_q" placeholder="Search name, city or area"
+                        style="max-width:300px"><strong id="count"></strong>
+                    <div style="display:flex;gap:8px"><select id="f_sort">
+                            <option value="">Sort: Newest</option>
+                            <option value="lh">Price: Low to High</option>
+                            <option value="hl">Price: High to Low</option>
+                            <option value="sz">Size: Largest</option>
+                        </select>
+                        <button class="btn sm" id="gridBtn" type="button">Grid</button><button class="btn sm"
+                            id="listBtn" type="button">List</button>
+                    </div>
+                </div>
+                <div class="grid" id="results"></div>
+                <div class="pager" id="pager"></div>
+            </main>
+        </div>
+    </section>
+    <section class="view" id="v-details" hidden>
+        <div class="container detail">
+            <div>
+                <div class="gallery box" style="padding:14px" id="gal">
+                    <div class="main"><img id="mainImg" alt="Property photo"><button class="nb" id="prev"
+                            style="left:12px" aria-label="Previous">‹</button><button class="nb" id="next"
+                            style="right:12px" aria-label="Next">›</button><button class="nb" id="full"
+                            style="right:12px;top:30px" aria-label="Full screen">⛶</button></div>
+                    <div class="thumbs" id="thumbs"></div>
+                </div>
+                <div class="box"><span class="tag" id="dStatus" style="position:static;display:inline-block"></span>
+                    <button class="heart" id="dHeart"
+                        style="position:static;float:right;border:1px solid var(--gray)">♥</button>
+                    <h1 id="dName" style="margin-top:10px"></h1>
+                    <p class="muted" id="dLoc"></p>
+                    <div class="price" id="dPrice" style="font-size:30px"></div>
+                    <div class="chips" id="dFacts" style="margin-top:12px"></div>
+                </div>
+                <div class="box">
+                    <h3>Description</h3>
+                    <p id="dDesc"></p><br>
+                    <h3>Key features</h3>
+                    <div class="chips" style="margin:10px 0"><span>Gated community</span><span>Backup
+                            power</span><span>Near schools</span><span>Parking</span></div>
+                    <h3>Amenities</h3>
+                    <div class="chips" style="margin-top:10px"><span>Security</span><span>Gas &amp;
+                            electricity</span><span>Garden</span><span>Gym access</span><span>Lift</span></div>
+                </div>
+                <div class="box">
+                    <h3>Specifications</h3>
+                    <div id="dSpecs" class="two"></div>
+                </div>
+                <div class="box">
+                    <h3>Location</h3><iframe id="dMap" title="Map" loading="lazy"
+                        style="width:100%;height:300px;border:0;border-radius:12px;margin-top:10px"></iframe>
+                </div>
+            </div>
+            <aside>
+                <form class="box stick" id="bookForm" novalidate>
+                    <h3>Book a Viewing</h3>
+                    <div><input id="bName" placeholder="Your Name">
+                        <div class="err" id="bNameErr"></div>
+                    </div>
+                    <div><input id="bEmail" type="email" placeholder="Email Address">
+                        <div class="err" id="bEmailErr"></div>
+                    </div>
+                    <div><input id="bPhone" placeholder="Phone Number">
+                        <div class="err" id="bPhoneErr"></div>
+                    </div>
+                    <div><input id="bDate" type="date">
+                        <div class="err" id="bDateErr"></div>
+                    </div>
+                    <div><input id="bTime" type="time">
+                        <div class="err" id="bTimeErr"></div>
+                    </div><textarea id="bMsg_t" placeholder="Message"></textarea><button class="btn">Book a
+                        Viewing</button>
+                    <div id="bMsg" class="err"></div>
+                </form>
+            </aside>
+        </div>
+        <section class="container" style="margin-top:40px">
+            <h2 style="margin-bottom:20px">Similar Properties</h2>
+            <div class="grid" id="similar"></div>
+        </section>
+    </section>
+    <section class="view" id="v-about" hidden>
+        <section class="page-hero">
+            <div class="container">
+                <h1>About DreamHomes</h1>
+                <p>Helping families and investors across Pakistan since 2010.</p>
+            </div>
+        </section>
+        <div class="container section">
+            <div class="two">
+                <div>
+                    <h2>Our story</h2>
+                    <p class="muted" style="margin-top:10px">DreamHomes began as a small Lahore office and now lists
+                        properties in six major cities. We focus on verified listings, plain pricing and honest advice.
+                    </p>
+                </div><img class="rv" style="border-radius:18px" loading="lazy"
+                    src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=70" alt="Modern living room"
+                    onerror="this.style.display='none'">
+            </div>
+            <div class="grid" style="margin-top:40px">
+                <div class="feat">
+                    <h3>Who we are</h3>
+                    <p class="muted">A team of agents, valuers and legal advisers.</p>
+                </div>
+                <div class="feat">
+                    <h3>Our mission</h3>
+                    <p class="muted">Make buying, selling and renting simple and transparent.</p>
+                </div>
+                <div class="feat">
+                    <h3>Our vision</h3>
+                    <p class="muted">Be Pakistan’s most trusted property partner.</p>
+                </div>
+            </div>
+        </div>
+        <section class="section stats">
+            <div class="container">
+                <div class="grid">
+                    <div><strong data-n="500">0</strong>Properties Sold</div>
+                    <div><strong data-n="1200">0</strong>Happy Clients</div>
+                    <div><strong data-n="350">0</strong>Available Properties</div>
+                    <div><strong data-n="50">0</strong>Professional Agents</div>
+                </div>
+            </div>
+        </section>
+        <div class="container section">
+            <h2 class="center" style="margin-bottom:30px">Our Team</h2>
+            <div class="grid">
+                <div class="card agent">
+                    <div class="avatar">AK</div>
+                    <h3>Ayesha Khan</h3>
+                    <p class="muted">Founder &amp; CEO</p>
+                </div>
+                <div class="card agent">
+                    <div class="avatar">HR</div>
+                    <h3>Hamza Raza</h3>
+                    <p class="muted">Head of Sales</p>
+                </div>
+                <div class="card agent">
+                    <div class="avatar">SM</div>
+                    <h3>Sara Malik</h3>
+                    <p class="muted">Investment Advisor</p>
+                </div>
+                <div class="card agent">
+                    <div class="avatar">BA</div>
+                    <h3>Bilal Ahmed</h3>
+                    <p class="muted">Legal Lead</p>
+                </div>
+            </div>
+            <div class="cta" style="margin-top:60px">
+                <h2>Ready to Find Your Dream Home?</h2>
+                <p style="margin:12px 0 22px">Talk to our team today.</p><a class="btn"
+                    style="background:#fff;color:var(--navy)" href="#contact">Contact Us</a>
+            </div>
+        </div>
+    </section>
+    <section class="view" id="v-services" hidden>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Our Services</h1>
+                <p>Everything you need, from first viewing to final paperwork.</p>
+            </div>
+        </section>
+        <div class="container section">
+            <div class="grid">
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">🏠</div>
+                    <h3>Buying Properties</h3>
+                    <p class="muted" style="margin:8px 0 14px">Shortlists, viewings and negotiation support.</p><a
+                        class="btn sm" href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">💼</div>
+                    <h3>Selling Properties</h3>
+                    <p class="muted" style="margin:8px 0 14px">Pricing advice, photography and qualified buyers.</p><a
+                        class="btn sm" href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">🔑</div>
+                    <h3>Renting Properties</h3>
+                    <p class="muted" style="margin:8px 0 14px">Tenant screening and clear rental agreements.</p><a
+                        class="btn sm" href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">🛠</div>
+                    <h3>Property Management</h3>
+                    <p class="muted" style="margin:8px 0 14px">Rent collection, maintenance and reporting.</p><a
+                        class="btn sm" href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">📈</div>
+                    <h3>Real Estate Investment</h3>
+                    <p class="muted" style="margin:8px 0 14px">Area research and yield comparisons.</p><a class="btn sm"
+                        href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">🧮</div>
+                    <h3>Property Valuation</h3>
+                    <p class="muted" style="margin:8px 0 14px">Market-based valuation reports.</p><a class="btn sm"
+                        href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">⚖️</div>
+                    <h3>Legal Assistance</h3>
+                    <p class="muted" style="margin:8px 0 14px">Title checks, transfer and registration help.</p><a
+                        class="btn sm" href="#contact">Learn More</a>
+                </div>
+                <div class="box tilt rv">
+                    <div class="ic" style="font-size:36px">💬</div>
+                    <h3>Consultation</h3>
+                    <p class="muted" style="margin:8px 0 14px">One-to-one advice with a senior agent.</p><a
+                        class="btn sm" href="#contact">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="view" id="v-contact" hidden>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <p>We usually reply within one working day.</p>
+            </div>
+        </section>
+        <div class="container section">
+            <div class="grid" style="margin-bottom:40px">
+                <div class="feat">
+                    <div class="ic">📍</div>
+                    <h3>Office</h3>
+                    <p class="muted">Gulberg III, Lahore</p>
+                </div>
+                <div class="feat">
+                    <div class="ic">📞</div>
+                    <h3>Phone</h3>
+                    <p class="muted">+92 300 0000000</p>
+                </div>
+                <div class="feat">
+                    <div class="ic">✉️</div>
+                    <h3>Email</h3>
+                    <p class="muted">annasheral87@gmail.com</p>
+                </div>
+                <div class="feat">
+                    <div class="ic">🕒</div>
+                    <h3>Hours</h3>
+                    <p class="muted">Mon–Sat 9am–7pm</p>
+                </div>
+            </div>
+            <div class="two">
+                <form class="box" id="cForm" novalidate style="display:grid;gap:10px">
+                    <h3>Send a message</h3>
+                    <div><input id="cName" placeholder="Name">
+                        <div class="err" id="cNameErr"></div>
+                    </div>
+                    <div><input id="cEmail" type="email" placeholder="Email">
+                        <div class="err" id="cEmailErr"></div>
+                    </div>
+                    <div><input id="cPhone" placeholder="Phone">
+                        <div class="err" id="cPhoneErr"></div>
+                    </div>
+                    <div><input id="cSub" placeholder="Subject">
+                        <div class="err" id="cSubErr"></div>
+                    </div>
+                    <div><textarea id="cMsg" placeholder="Message"></textarea>
+                        <div class="err" id="cMsgErr"></div>
+                    </div><button class="btn">Send message</button>
+                    <div id="cResult" class="err"></div>
+                </form>
+                <div class="box"><iframe title="Office map" loading="lazy"
+                        style="width:100%;height:420px;border:0;border-radius:12px"
+                        src="https://maps.google.com/maps?q=Gulberg%20III%20Lahore&output=embed"></iframe>
+                    <p style="margin-top:12px">Follow us: Facebook · Instagram · LinkedIn</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="view" id="v-login" hidden>
+        <div class="authbox" id="authGuest">
+            <div id="stepForm" style="display:grid;gap:12px">
+                <div class="tabs"><button type="button" id="tLogin">Login</button><button type="button"
+                        id="tReg">Register</button></div>
+                <form id="aForm" novalidate style="display:grid;gap:12px">
+                    <div class="reg"><input id="aName" placeholder="Full name" autocomplete="name">
+                        <div class="err" id="aNameErr"></div>
+                    </div>
+                    <div><input id="aEmail" type="email" placeholder="Email" autocomplete="email">
+                        <div class="err" id="aEmailErr"></div>
+                    </div>
+                    <div class="reg"><input id="aPhone" type="tel" placeholder="Mobile number (03xx xxxxxxx)"
+                            autocomplete="tel">
+                        <div class="err" id="aPhoneErr"></div>
+                    </div>
+                    <div>
+                        <div class="pw"><input id="aPass" type="password" placeholder="Password (min 8 characters)"
+                                autocomplete="current-password"><button type="button"
+                                aria-label="Show password">👁</button></div>
+                        <div class="err" id="aPassErr"></div>
+                    </div>
+                    <div class="reg">
+                        <div class="pw"><input id="aPass2" type="password" placeholder="Confirm password"><button
+                                type="button" aria-label="Show password">👁</button></div>
+                        <div class="err" id="aPass2Err"></div>
+                    </div>
+                    <button class="btn" id="aSubmit">Login</button>
+                </form>
+                <div id="aMsg" class="err"></div>
+            </div>
+            <form id="otpForm" hidden novalidate style="display:grid;gap:12px">
+                <h3>Verify your mobile</h3>
+                <p class="muted" id="otpText"></p><input id="otp" class="otp" inputmode="numeric" maxlength="6"
+                    placeholder="------" autocomplete="one-time-code"><button class="btn">Verify &amp; create
+                    account</button><button type="button" class="btn out sm" id="resend"
+                    style="color:var(--blue)">Resend code</button>
+                <div id="otpMsg" class="err"></div>
+            </form>
+        </div>
+        <div class="authbox center" id="authUser" hidden>
+            <div class="avatar" id="uAv"></div>
+            <h2 id="uName"></h2>
+            <p class="muted" id="uMail"></p>
+            <p class="muted" id="uPhone"></p>
+            <p class="ok">✓ Mobile verified · Account active</p><a class="btn" href="#properties">Browse
+                properties</a><a class="btn out" style="color:var(--blue);border-color:var(--blue)" href="#favorites">My
+                wishlist</a><button class="btn navy" id="logout" type="button">Log out</button>
+        </div>
+    </section>
+    <section class="view" id="v-favorites" hidden>
+        <section class="page-hero">
+            <div class="container">
+                <h1>My Favorite Properties</h1>
+                <p><span id="favCount"></span></p>
+            </div>
+        </section>
+        <div class="container section">
+            <div class="grid" id="favGrid"></div>
+        </div>
+    </section>
+
+    <script>
+        /* DreamHomes shared script. Demo only: forms do not send data anywhere (connect a backend at the marked "BACKEND" spots). */
+        let VIEW = 'home', tIv;
+        const U = id => `https://images.unsplash.com/photo-${id}?w=900&q=70&auto=format&fit=crop`;
+        // EDIT HERE: image pool (Unsplash IDs). Replace with local files in assets/images/ if preferred.
+        const IMG = {
+            villa: ['1613490493576-7fde63acd811', '1600596542815-ffad4c1539a9', '1600585154340-be6161a56a0c', '1605276374104-dee2a0ed3cd6'],
+            apartment: ['1545324418-cc1a3fa10c00', '1522708323590-d24dbb6b0267', '1560448204-e02f11c3d0e2', '1502672260266-1c1ef2d93688'],
+            house: ['1564013799919-ab600027ffc6', '1512917774080-9991f1c4c750', '1568605114967-8130f3a36994', '1600607687939-ce8a6c25118c'],
+            commercial: ['1486406146926-c627a92ad1ab', '1497366216548-37526070297c', '1497366811353-6870744d04b2', '1556761175-5973dc0f32e7'],
+            penthouse: ['1512918728675-ed5a9ecdebfd', '1600566753190-17f0baa2a6c3', '1560448204-e02f11c3d0e2', '1502672260266-1c1ef2d93688'],
+            plot: ['1500382017468-9049fed747ef', '1500530855697-b586d89ba3ee', '1472214103451-9374bd1c798e', '1441974231531-c6227db76b6e']
+        };
+        const TYPES = { villa: 'Luxury Villa', apartment: 'Apartment', house: 'Family House', commercial: 'Commercial', penthouse: 'Penthouse', plot: 'Plot / Land' };
+        // EDIT HERE: property data. price is in PKR.
+        const P = [
+            [1, 'Modern Villa in DHA', 'villa', 'Lahore', 'DHA Phase 5', 45000000, 'sale', 5, 4, 4500, 1],
+            [2, 'Luxury Apartment', 'apartment', 'Karachi', 'Bahria Town', 28000000, 'sale', 3, 3, 2200, 1],
+            [3, 'Family Home', 'house', 'Islamabad', 'F-7', 150000, 'rent', 4, 3, 3000, 1],
+            [4, 'Executive House', 'villa', 'Lahore', 'Gulberg', 72000000, 'sale', 6, 5, 5200, 1],
+            [5, 'Royal Sky Penthouse', 'penthouse', 'Karachi', 'DHA Phase 8', 150000000, 'sale', 4, 5, 4200, 1],
+            [6, 'Green Valley Plot', 'plot', 'Rawalpindi', 'Bahria Town', 18000000, 'sale', 0, 0, 2250, 0],
+            [7, 'Modern Villa with Pool', 'villa', 'Islamabad', 'E-11', 210000000, 'sale', 6, 7, 7200, 1],
+            [8, 'Cozy City Apartment', 'apartment', 'Lahore', 'Johar Town', 180000, 'rent', 2, 2, 1100, 1],
+            [9, 'Executive Family Home', 'house', 'Faisalabad', 'Canal Road', 48000000, 'sale', 5, 4, 3000, 0],
+            [10, 'Luxury Penthouse Suite', 'penthouse', 'Lahore', 'Gulberg III', 350000, 'rent', 3, 4, 3200, 1],
+            [11, 'Retail Shop Main Boulevard', 'commercial', 'Multan', 'Cantt', 65000000, 'sale', 0, 2, 1500, 0],
+            [12, 'Lakeview Villa', 'villa', 'Rawalpindi', 'Bahria Town', 72000000, 'sale', 5, 5, 4500, 1]
+        ].map(a => ({
+            id: a[0], name: a[1], type: a[2], city: a[3], area: a[4], price: a[5], status: a[6], beds: a[7], baths: a[8], sqft: a[9], furnished: !!a[10], imgs: IMG[a[2]].map(U),
+            desc: `${a[1]} is a well-kept ${TYPES[a[2]].toLowerCase()} in ${a[4]}, ${a[3]}, with generous space, natural light and quick access to schools, markets and main roads.`
+        }));
+        P[3].imgs = [...IMG.villa].reverse().map(U);
+        const ICONS = { "bed": "<path d=\"M3 18V7M3 14h18v4M21 14v-3a3 3 0 0 0-3-3h-7v6\"/><circle cx=\"7\" cy=\"11\" r=\"1.5\"/>", "bath": "<path d=\"M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3zM6 12V6a2 2 0 0 1 4 0M7 19l-1 2M17 19l1 2\"/>", "area": "<path d=\"M4 4h16v16H4zM4 12h8v8\"/>", "pin": "<path d=\"M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z\"/><circle cx=\"12\" cy=\"10\" r=\"2.5\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21c0-4 4-6 8-6s8 2 8 6\"/>", "phone": "<path d=\"M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z\"/>", "mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/>", "cal": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 10h18M8 3v4M16 3v4\"/>", "msg": "<path d=\"M4 5h16v11H9l-5 4z\"/>", "send": "<path d=\"M21 3L3 11l7 3 3 7z\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M20 20l-4-4\"/>", "home": "<path d=\"M3 11l9-8 9 8v10H3zM9 21v-7h6v7\"/>", "price": "<ellipse cx=\"12\" cy=\"6\" rx=\"8\" ry=\"3\"/><path d=\"M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6\"/>", "heart": "<path d=\"M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z\"/>", "check": "<path d=\"M5 12l5 5 9-10\"/>", "floors": "<path d=\"M12 3l9 5-9 5-9-5zM3 13l9 5 9-5\"/>", "left": "<path d=\"M15 5l-7 7 7 7\"/>", "right": "<path d=\"M9 5l7 7-7 7\"/>", "chev": "<path d=\"M6 9l6 6 6-6\"/>" };
+        const ic = n => `<svg class="i" viewBox="0 0 24 24">${ICONS[n]}</svg>`;
+        const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+        const fmt = p => p >= 10000000 ? 'PKR ' + (p / 10000000).toFixed(2).replace(/\.?0+$/, '') + ' Crore' : p >= 100000 ? 'PKR ' + (p / 100000).toFixed(2).replace(/\.?0+$/, '') + ' Lac' : 'PKR ' + p.toLocaleString();
+        const money = p => 'PKR ' + p.price.toLocaleString() + (p.status === 'rent' ? ' / month' : '');
+
+        /* ---------- backend API (see /server) ---------- */
+        const API = location.port === '3000' ? '' : 'http://localhost:3000';
+        async function api(path, body, method) {
+            const t = localStorage.getItem('dh_token'); let r;
+            try { r = await fetch(API + '/api' + path, { method: method || 'POST', headers: { 'Content-Type': 'application/json', ...(t ? { Authorization: 'Bearer ' + t } : {}) }, body: body ? JSON.stringify(body) : undefined }) }
+            catch (e) { throw new Error('Cannot reach the server. Start it with "npm start" in the server folder and open http://localhost:3000') }
+            const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || 'Request failed'); return j
+        }
+        async function send(path, data, m, form) { m.className = 'err'; m.textContent = 'Sending…'; try { await api(path, data); m.className = 'ok'; m.textContent = 'Sent! We will contact you soon.'; form.reset() } catch (err) { m.className = 'err'; m.textContent = err.message } }
+        const updateHeader = () => { const u = JSON.parse(localStorage.getItem('dh_session') || 'null'), b = $('#loginBtn'); if (b) b.textContent = u ? '👤 ' + u.name.split(' ')[0] : 'Login / Register' };
+        /* ---------- favorites (localStorage) ---------- */
+        const favs = () => { try { return JSON.parse(localStorage.getItem('dh_favs')) || [] } catch (e) { return [] } };
+        function toggleFav(id) { let f = favs(); f = f.includes(id) ? f.filter(x => x !== id) : [...f, id]; localStorage.setItem('dh_favs', JSON.stringify(f)); updateFavUI(); }
+        function updateFavUI() {
+            const f = favs(); $$('.fc').forEach(e => e.textContent = f.length); $$('.heart').forEach(b => b.classList.toggle('on', f.includes(+b.dataset.id)));
+            if (VIEW === 'favorites') renderFavs();
+        }
+
+        /* ---------- shared layout ---------- */
+        const PAGES = [['#home', 'Home'], ['#properties', 'Properties'], ['#about', 'About'], ['#services', 'Services'], ['#contact', 'Contact']];
+        function layout() {
+            const logo = `<svg class="lg" viewBox="0 0 40 40"><path d="M6 18L20 5l14 13v17H6z" fill="#fff"/><path d="M20 5l14 13v3L20 9 6 21v-3z" fill="#9aa5ff"/><rect x="15" y="21" width="10" height="9" rx="1" fill="#465CF5"/></svg>`;
+            document.body.insertAdjacentHTML('afterbegin', `<div id="loader"><div class="ld">${logo}<b>DreamHomes</b><i class="bar"></i></div></div><div id="progress"></div><header id="hdr"><div class="container nav"><a class="logo" href="#home">${logo}<span>DreamHomes<small>Find Your Perfect Place</small></span></a>
+  <nav class="links" id="menu">${PAGES.map(p => `<a href="${p[0]}">${p[1]}</a>`).join('')}
+  <span class="grow"></span><a href="#favorites" class="ico" title="Wishlist" aria-label="Wishlist">${ic('heart')}<span class="badge-count fc">0</span></a><a href="#login" class="ico" title="Account" aria-label="Account">${ic('user')}</a><a class="btn out sm" href="#login" id="loginBtn">Login / Register</a></nav>
+  <button class="burger" id="burger" aria-label="Menu">☰</button></div></header>`);
+            document.body.insertAdjacentHTML('beforeend', `<footer><div class="container"><div class="cols"><div><div class="logo" style="color:#fff">${logo}<span>DreamHomes<small>Find Your Perfect Place</small></span></div><p style="margin-top:12px">Verified homes, apartments and investment properties across Pakistan.</p><p>Gulberg III, Lahore, Pakistan<br>+92 300 1234567<br>annasheral87@gmail.com</p></div>
+  <div><h4>Quick links</h4>${PAGES.map(p => `<a href="${p[0]}">${p[1]}</a>`).join('')}<a href="#favorites">Wishlist</a></div>
+  <div><h4>Categories</h4>${Object.entries(TYPES).map(([k, v]) => `<a href="#properties?type=${k}">${v}</a>`).join('')}</div>
+  <div><h4>Newsletter</h4><form class="nl" id="nlForm" novalidate><input type="email" id="nlEmail" placeholder="Your email"><button class="btn sm">Join</button></form><div class="err" id="nlMsg"></div><p>Follow us: Facebook · Instagram · LinkedIn</p></div></div>
+  <div class="copy">© 2026 DreamHomes. Demo website; sample listings only.</div></div></footer><button id="top" aria-label="Back to top">↑</button>`);
+            $('#burger').onclick = () => $('#menu').classList.toggle('open');
+            const u = JSON.parse(localStorage.getItem('dh_session') || 'null'); if (u) { $('#loginBtn').textContent = 'Hi, ' + u.name.split(' ')[0]; }
+            $('#nlForm').onsubmit = e => { e.preventDefault(); const ok = /^\S+@\S+\.\S+$/.test($('#nlEmail').value); const m = $('#nlMsg'); if (ok) { send('/newsletter', { email: $('#nlEmail').value.trim() }, m, e.target); return } m.className = 'err'; m.textContent = 'Enter a valid email.'; };
+            $('#top').onclick = () => scrollTo({ top: 0, behavior: 'smooth' });
+            const onScroll = () => { const h = document.documentElement; $('#progress').style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%'; $('#top').classList.toggle('show', h.scrollTop > 500); $('#hdr').classList.toggle('scrolled', h.scrollTop > 40); h.style.setProperty('--sy', Math.min(h.scrollTop, 900)) };
+            addEventListener('scroll', onScroll, { passive: true }); onScroll();
+            addEventListener('load', () => setTimeout(() => $('#loader').classList.add('hide'), 900));
+        }
+
+        /* ---------- property card ---------- */
+        function card(p) {
+            return `<article class="card tilt rv" onclick="location.hash='#details?id=${p.id}'"><div class="img"><img loading="lazy" src="${p.imgs[0]}" alt="${p.name}" onerror="this.style.display='none'"><span class="tag ${p.status === 'rent' ? 'rent' : ''}">For ${p.status === 'rent' ? 'Rent' : 'Sale'}</span>
+<button class="heart" data-id="${p.id}" aria-label="Save ${p.name} to wishlist">${ic('heart')}</button></div><div class="body"><div class="price">${money(p)}</div><h3><a href="#details?id=${p.id}">${p.name}</a></h3><p class="loc">${ic('pin')} ${p.area}, ${p.city}</p>
+<div class="meta">${p.beds ? `<span>${ic('bed')} ${p.beds} Beds</span>` : ''}${p.baths ? `<span>${ic('bath')} ${p.baths} Baths</span>` : ''}<span>${ic('area')} ${p.sqft.toLocaleString()} sqft</span></div></div></article>`
+        }
+        function mount(el, list) { el.innerHTML = list.length ? list.map(card).join('') : '<p class="muted">No properties match your filters.</p>'; bindDynamic(); }
+
+        /* ---------- effects ---------- */
+        function bindDynamic() {
+            $$('.heart:not([data-b])').forEach(b => { b.dataset.b = 1; b.onclick = e => { e.preventDefault(); e.stopPropagation(); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); toggleFav(+b.dataset.id) } });
+            if (!matchMedia('(prefers-reduced-motion:reduce)').matches) {
+                $$('.tilt:not([data-t])').forEach(c => {
+                    c.dataset.t = 1;
+                    c.onmousemove = e => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height; c.style.setProperty('--mx', x * 100 + '%'); c.style.setProperty('--my', y * 100 + '%'); c.style.transform = `perspective(900px) rotateY(${(x - .5) * 10}deg) rotateX(${(.5 - y) * 10}deg) translateY(-6px)` };
+                    c.onmouseleave = () => c.style.transform = ''
+                });
+                $$('.btn:not([data-m])').forEach(b => { b.dataset.m = 1; b.onmousemove = e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .15}px,${(e.clientY - r.top - r.height / 2) * .25 - 2}px)` }; b.onmouseleave = () => b.style.transform = '' })
+            }
+            const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const t = e.target; t.classList.add('in'); io.unobserve(t); setTimeout(() => { t.classList.remove('rv', 'in'); t.style.transitionDelay = '' }, 1300) } }), { threshold: .12 });
+            $$('.rv:not(.in)').forEach(e => { e.style.transitionDelay = ([...e.parentNode.children].indexOf(e) % 4) * 90 + 'ms'; io.observe(e) }); updateFavUI();
+        }
+        let heroIv;
+        function heroInit() {
+            const hs = $$('.hs'), dots = $$('.dots i'); let i = 0;
+            const go = n => { i = (n + hs.length) % hs.length; hs.forEach((x, k) => x.classList.toggle('on', k === i)); dots.forEach((x, k) => x.classList.toggle('on', k === i)) };
+            go(0); clearInterval(heroIv); heroIv = setInterval(() => go(i + 1), 6500);
+            $('#hPrev').onclick = () => go(i - 1); $('#hNext').onclick = () => go(i + 1); dots.forEach((d, k) => d.onclick = () => go(k));
+            const h = $('.hero2'); h.onmousemove = e => { const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5; $$('[data-d]', h).forEach(o => o.style.transform = `translate(${x * o.dataset.d}px,${y * o.dataset.d}px)`) };
+        }
+        function spotInit() {
+            const p = P[0], im = $('#sgImg'); let i = 0;
+            const show = n => { i = (n + p.imgs.length) % p.imgs.length; im.classList.remove('fade'); void im.offsetWidth; im.src = p.imgs[i]; im.classList.add('fade'); $('#sgCount').textContent = (i + 1) + '/' + p.imgs.length; $$('#sgThumbs img').forEach((t, k) => t.classList.toggle('on', k === i)) };
+            $('#sgThumbs').innerHTML = p.imgs.map((x, k) => `<img loading="lazy" src="${x}" alt="Photo ${k + 1}" data-k="${k}">`).join('');
+            $$('#sgThumbs img').forEach(t => t.onclick = () => show(+t.dataset.k)); $('#sgPrev').onclick = () => show(i - 1); $('#sgNext').onclick = () => show(i + 1); show(0);
+            $('#sbForm').onsubmit = e => { e.preventDefault(); const ok = validate(e.target, [['sbName', req, 'Enter your name'], ['sbPhone', isPhone, 'Enter a valid phone number'], ['sbEmail', isMail, 'Enter a valid email'], ['sbDate', v => v && new Date(v) >= new Date(new Date().toDateString()), 'Pick today or a later date']]); const m = $('#sbMsg'); if (ok) send('/booking', { property: 'Modern Villa in DHA', name: $('#sbName').value.trim(), phone: $('#sbPhone').value.trim(), email: $('#sbEmail').value.trim(), date: $('#sbDate').value, message: $('#sbText').value }, m, e.target); else m.textContent = '' };
+        }
+        function counters() {
+            const io = new IntersectionObserver(es => es.forEach(e => {
+                if (!e.isIntersecting) return; io.unobserve(e.target); const t = +e.target.dataset.n; let n = 0; const s = t / 60;
+                const id = setInterval(() => { n += s; if (n >= t) { n = t; clearInterval(id) } e.target.textContent = Math.floor(n).toLocaleString() + '+' }, 25)
+            })); $$('[data-n]').forEach(e => io.observe(e));
+        }
+        function testimonials() { const s = $$('.slide'); if (!s.length) return; let i = 0; const go = n => { s[i].classList.remove('on'); i = (n + s.length) % s.length; s[i].classList.add('on') }; go(0); clearInterval(tIv); tIv = setInterval(() => go(i + 1), 5000); }
+
+        /* ---------- validation helper ---------- */
+        function validate(form, rules) { let ok = true; rules.forEach(([id, test, msg]) => { const el = $('#' + id), er = $('#' + id + 'Err'); const v = el.value.trim(); const bad = !test(v); if (er) er.textContent = bad ? msg : ''; if (bad) ok = false }); return ok }
+        const isMail = v => /^\S+@\S+\.\S+$/.test(v), isPhone = v => /^[+\d][\d\s-]{9,15}$/.test(v), req = v => v.length > 1;
+
+        /* ---------- page initialisers ---------- */
+        const pages = {
+            home() {
+                mount($('#featured'), P.slice(0, 4)); heroInit(); spotInit();
+                $('#heroSearch').onsubmit = e => { e.preventDefault(); const q = new URLSearchParams();['type', 'city', 'price', 'beds'].forEach(k => { const v = $('#h_' + k).value; if (v) q.set(k, v) }); location.hash = '#properties?' + q };
+            },
+            properties() {
+                $$('.panel select,.panel input,#f_q').forEach(e => e.value = ''); const q = new URLSearchParams(location.hash.split('?')[1] || '');['type', 'city', 'beds'].forEach(k => { if (q.get(k)) $('#f_' + k).value = q.get(k) }); if (q.get('price')) { const [a, b] = q.get('price').split('-'); $('#f_min').value = a; $('#f_max').value = b || '' }
+                let page = 1; const per = 6;
+                const run = () => {
+                    const g = id => $('#' + id).value; let l = P.filter(p => (!g('f_mode') || p.status === g('f_mode')) && (!g('f_type') || p.type === g('f_type')) && (!g('f_city') || p.city === g('f_city')) &&
+                        (!g('f_area') || p.area.toLowerCase().includes(g('f_area').toLowerCase())) && (!g('f_min') || p.price >= +g('f_min')) && (!g('f_max') || p.price <= +g('f_max')) && (!g('f_beds') || p.beds >= +g('f_beds')) && (!g('f_baths') || p.baths >= +g('f_baths')) &&
+                        (!g('f_size') || p.sqft >= +g('f_size')) && (!g('f_furn') || String(p.furnished) === g('f_furn')) && (!g('f_q') || (p.name + p.city + p.area).toLowerCase().includes(g('f_q').toLowerCase())));
+                    const s = g('f_sort'); l.sort((a, b) => s === 'lh' ? a.price - b.price : s === 'hl' ? b.price - a.price : s === 'sz' ? b.sqft - a.sqft : a.id - b.id);
+                    const pages = Math.max(1, Math.ceil(l.length / per)); page = Math.min(page, pages); $('#count').textContent = l.length + ' properties found'; mount($('#results'), l.slice((page - 1) * per, page * per));
+                    $('#pager').innerHTML = Array.from({ length: pages }, (_, i) => `<button class="${i + 1 === page ? 'on' : ''}" data-p="${i + 1}">${i + 1}</button>`).join(''); $$('#pager button').forEach(b => b.onclick = () => { page = +b.dataset.p; run(); scrollTo({ top: 200, behavior: 'smooth' }) })
+                };
+                $$('.panel select,.panel input,#f_sort,#f_q').forEach(e => e.oninput = () => { page = 1; run() });
+                $('#reset').onclick = () => { $$('.panel select,.panel input,#f_q').forEach(e => e.value = ''); page = 1; run() };
+                $('#gridBtn').onclick = () => $('#results').classList.remove('list'); $('#listBtn').onclick = () => $('#results').classList.add('list'); run();
+            },
+            details() {
+                const p = P.find(x => x.id === +new URLSearchParams(location.hash.split('?')[1] || '').get('id')) || P[0]; document.title = p.name + ' | DreamHomes'; let i = 0;
+                $('#dName').textContent = p.name; $('#dPrice').textContent = money(p); $('#dLoc').textContent = '📍 ' + p.area + ', ' + p.city; $('#dStatus').textContent = 'For ' + (p.status === 'rent' ? 'Rent' : 'Sale');
+                $('#dFacts').innerHTML = `<span>🛏 ${p.beds} Beds</span><span>🛁 ${p.baths} Baths</span><span>📐 ${p.sqft.toLocaleString()} sqft</span><span>${p.furnished ? 'Furnished' : 'Unfurnished'}</span>`; $('#dDesc').textContent = p.desc;
+                $('#dSpecs').innerHTML = [['Type', TYPES[p.type]], ['City', p.city], ['Area', p.area], ['Size', p.sqft + ' sqft'], ['Listing ID', 'DH-' + p.id]].map(r => `<p><b>${r[0]}:</b> ${r[1]}</p>`).join('');
+                $('#dMap').src = 'https://maps.google.com/maps?q=' + encodeURIComponent(p.area + ', ' + p.city + ', Pakistan') + '&output=embed';
+                const show = n => { i = (n + p.imgs.length) % p.imgs.length; $('#mainImg').src = p.imgs[i]; $$('.thumbs img').forEach((t, k) => t.classList.toggle('on', k === i)) };
+                $('#thumbs').innerHTML = p.imgs.map((s, k) => `<img src="${s}" alt="View ${k + 1}" data-k="${k}">`).join(''); $$('#thumbs img').forEach(t => t.onclick = () => show(+t.dataset.k));
+                $('#prev').onclick = () => show(i - 1); $('#next').onclick = () => show(i + 1); $('#full').onclick = () => $('#gal').requestFullscreen && $('#gal').requestFullscreen(); show(0);
+                $('#dHeart').dataset.id = p.id; mount($('#similar'), P.filter(x => x.id !== p.id && (x.type === p.type || x.city === p.city)).slice(0, 3));
+                $('#bookForm').onsubmit = e => {
+                    e.preventDefault(); const ok = validate(e.target, [['bName', req, 'Enter your name'], ['bEmail', isMail, 'Enter a valid email'], ['bPhone', isPhone, 'Enter a valid phone number'], ['bDate', v => v && new Date(v) >= new Date(new Date().toDateString()), 'Pick today or a future date'], ['bTime', v => !!v, 'Pick a time']]);
+                    const m = $('#bMsg'); if (ok) send('/booking', { property: p.name, name: $('#bName').value.trim(), phone: $('#bPhone').value.trim(), email: $('#bEmail').value.trim(), date: $('#bDate').value, time: $('#bTime').value, message: $('#bMsg_t').value }, m, e.target); else { m.textContent = '' }
+                };
+            },
+            favorites() { renderFavs() },
+            contact() {
+                $('#cForm').onsubmit = e => {
+                    e.preventDefault(); const ok = validate(e.target, [['cName', req, 'Enter your name'], ['cEmail', isMail, 'Enter a valid email'], ['cPhone', isPhone, 'Enter a valid phone number'], ['cSub', req, 'Enter a subject'], ['cMsg', v => v.length > 9, 'Message needs at least 10 characters']]);
+                    const m = $('#cResult'); if (ok) send('/contact', { name: $('#cName').value.trim(), email: $('#cEmail').value.trim(), phone: $('#cPhone').value.trim(), subject: $('#cSub').value.trim(), message: $('#cMsg').value.trim() }, m, e.target)
+                }
+            },
+            login() {
+                let mode = 'login', phone = null, cool;
+                const msg = (t, ok) => { const m = $('#aMsg'); m.className = 'err' + (ok ? ' ok' : ''); m.textContent = t };
+                const render = () => {
+                    const u = JSON.parse(localStorage.getItem('dh_session') || 'null'); $('#authGuest').hidden = !!u; $('#authUser').hidden = !u;
+                    if (u) { $('#uAv').textContent = u.name.split(' ').map(x => x[0]).join('').slice(0, 2).toUpperCase(); $('#uName').textContent = u.name; $('#uMail').textContent = u.email; $('#uPhone').textContent = u.phone || '' } updateHeader()
+                };
+                const set = m => { mode = m; $$('.reg').forEach(e => e.hidden = m !== 'register'); $('#tLogin').classList.toggle('on', m === 'login'); $('#tReg').classList.toggle('on', m === 'register'); $('#aSubmit').textContent = m === 'login' ? 'Login' : 'Create account'; msg('') };
+                const finish = r => { localStorage.setItem('dh_token', r.token); localStorage.setItem('dh_session', JSON.stringify(r.user)); $('#stepForm').hidden = false; $('#otpForm').hidden = true; render() };
+                $('#tLogin').onclick = () => set('login'); $('#tReg').onclick = () => set('register'); set('login'); render(); $('#stepForm').hidden = false; $('#otpForm').hidden = true;
+                $$('.pw button').forEach(b => b.onclick = () => { const i = b.previousElementSibling; i.type = i.type === 'password' ? 'text' : 'password' });
+                $('#aForm').onsubmit = async e => {
+                    e.preventDefault(); const g = id => $('#' + id).value.trim(), pw = $('#aPass').value;
+                    const rules = [['aEmail', isMail, 'Enter a valid email'], ['aPass', v => v.length >= 8, 'Password needs 8+ characters']];
+                    if (mode === 'register') rules.push(['aName', req, 'Enter your name'], ['aPhone', v => /^(\+92|0092|92|0)?3\d{9}$/.test(v.replace(/[\s-]/g, '')), 'Enter a valid mobile number (03xx xxxxxxx)'], ['aPass2', v => v === pw, 'Passwords do not match']);
+                    if (!validate(e.target, rules)) return; const btn = $('#aSubmit'); btn.disabled = true; msg('Please wait…');
+                    try {
+                        if (mode === 'register') {
+                            const r = await api('/register', { name: g('aName'), email: g('aEmail'), phone: g('aPhone'), password: pw }); phone = r.phone;
+                            $('#otpText').textContent = 'We sent a 6-digit code to ' + r.phoneMasked + '.' + (r.via === 'console' ? ' (Server SMS is not configured yet: the code is printed in the server window.)' : ''); $('#stepForm').hidden = true; $('#otpForm').hidden = false; $('#otp').focus()
+                        }
+                        else finish(await api('/login', { email: g('aEmail'), password: pw }))
+                    } catch (err) { msg(err.message) } btn.disabled = false
+                };
+                $('#otpForm').onsubmit = async e => {
+                    e.preventDefault(); const m = $('#otpMsg'); m.className = 'err';
+                    try { finish(await api('/verify', { phone, code: $('#otp').value.trim() })) } catch (err) { m.textContent = err.message }
+                };
+                $('#resend').onclick = async () => { const b = $('#resend'), m = $('#otpMsg'); try { await api('/resend', { phone }); m.className = 'err ok'; m.textContent = 'New code sent.'; let n = 30; b.disabled = true; clearInterval(cool); cool = setInterval(() => { b.textContent = n > 0 ? 'Resend in ' + n-- + 's' : 'Resend code'; if (n < 0) { clearInterval(cool); b.disabled = false } }, 1000) } catch (err) { m.className = 'err'; m.textContent = err.message } };
+                $('#logout').onclick = () => { localStorage.removeItem('dh_token'); localStorage.removeItem('dh_session'); render(); set('login') };
+            }
+        };
+        function renderFavs() {
+            const l = P.filter(p => favs().includes(p.id)); $('#favCount').textContent = l.length + ' saved properties';
+            $('#favGrid').innerHTML = l.length ? l.map(card).join('') : '<div class="box center" style="grid-column:1/-1"><h3>Your wishlist is empty</h3><p class="muted">Tap the heart on any property to save it here.</p><br><a class="btn" href="#properties">Browse properties</a></div>';
+            $$('#favGrid .heart').forEach(b => { b.dataset.b = 1; b.classList.add('on'); b.onclick = () => toggleFav(+b.dataset.id) }); bindDynamic();
+        }
+        /* ---------- hash router (single-file site) ---------- */
+        function route() {
+            VIEW = (location.hash.slice(1).split('?')[0]) || 'home'; if (!$('#v-' + VIEW)) VIEW = 'home';
+            $$('.view').forEach(v => v.hidden = v.id !== 'v-' + VIEW);
+            $$('.links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + VIEW));
+            $('#menu').classList.remove('open'); scrollTo(0, 0);
+            (pages[VIEW] || (() => { }))();
+            $$('.cat[data-type]').forEach(c => c.style.backgroundImage = `url(${U(IMG[c.dataset.type][0])})`);
+            bindDynamic(); counters(); testimonials();
+        }
+        document.addEventListener('DOMContentLoaded', () => { layout(); updateHeader(); if (localStorage.getItem('dh_token')) api('/me', null, 'GET').then(r => { localStorage.setItem('dh_session', JSON.stringify(r.user)); updateHeader() }).catch(e => { if (!/reach/.test(e.message)) { localStorage.removeItem('dh_token'); localStorage.removeItem('dh_session'); updateHeader() } }); route(); addEventListener('hashchange', route) });
+
+    </script>
+</body>
+
+</html>
